@@ -1,0 +1,141 @@
+<!--
+2006-08-02 Nichols - added second button to login if you have
+		LAN access to the file data for fast file view.
+2006-08-03 Nichols - changed button labels.
+2006-09-08 Roy Nabel - made lan login default button
+2011-11-07 Nichols - removed lan login button.
+2011-11-11 Roy Nabel - changed to new javascript tree "image2000.htm" was "image2000.jsp"
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>RCO - Image2000/Logon</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+<!-- Custom CSS -->
+<link rel="stylesheet" href="css/custom.css" type="text/css"/>
+
+<script  src="dhtmlxSuite_v36_pro/dhtmlxTabbar/codebase/dhtmlxcommon.js"></script>
+
+<SCRIPT LANGUAGE="JAVASCRIPT">
+<!--Hiding the code
+
+	function Check()
+	{
+	 document.body.style.cursor = 'wait'
+
+		 if (document.Login.txtID.value == "")
+		 {
+				alert("Please Input Your Login Name.");
+				document.Login.txtID.focus();
+				return false;
+		 }
+
+		 if (document.Login.txtPass.value == "")
+		 {
+				alert("Please Input Your PassWord.");
+				document.Login.txtPass.focus();
+				return false;
+		 }
+
+//     document.Login.clientIP.value = document.ipaddress.getIPAddress();
+
+		 return true;
+	}
+
+function gotoFP() {
+	window.location = "logonfp.htm";
+}
+
+function getCookieVal(offset) {
+	 var endstr = document.cookie.indexOf (";", offset);
+	 if (endstr == -1) endstr = document.cookie.length;
+	 return unescape (document.cookie.substring(offset, endstr));
+}
+
+function GetCookie(name) {
+	 var arg = name+"=";
+	 var alen = arg.length;
+	 var clen = document.cookie.length;
+	 var i = 0;
+	 while (i < clen) {
+			var j = i + alen;
+			if (document.cookie.substring(i, j) == arg) return getCookieVal(j);
+			i = document.cookie.indexOf(" ", i) + 1;
+			if (i == 0) break;
+	 }
+	 return null;
+}
+
+function setLogin() {
+	var login=GetCookie("login")
+	if(login != null)
+	{
+		 document.Login.txtID.value=login;
+		 document.Login.txtPass.focus();
+	}
+	else
+		 document.Login.txtID.focus();
+	return;
+}
+
+function doOnLoad(){
+	var loader = dhtmlxAjax.getSync('./jsp/getlogin.jsp');
+	var blogin = loader.xmlDoc.responseXML.documentElement.getElementsByTagName("blogin")[0].childNodes[0].nodeValue;
+	if (blogin == 'yes')
+	  window.location = "image2000.htm";
+	else return;
+}
+
+//done hiding-->
+</SCRIPT>
+</head>
+<body onLoad="doOnLoad();">
+
+	<div class="container">
+		<form method="POST" action="checklogin.jsp" name="Login" onSubmit="return Check();">
+
+			<input type="hidden" name="clientIP" value="">
+			
+			<div class="form-group">
+				<div class="row custom-inline">
+					<div class="col-md-2">
+						<label for="email">Name</label>
+					</div>
+					<div class="col-md-4">
+						<input type="email" name="txtID" class="form-control" placeholder="example@domain.com" />
+					</div>
+				</div>
+			</div> <!-- end form-group -->
+			<div class="form-group">
+				<div class="row custom-inline">
+					<div class="col-md-2">
+						<label for="password">Password</label>
+					</div>
+					<div class="col-md-4">
+						<input type="password" name="txtPass" class="form-control" placeholder="Your password" />
+					</div>
+				</div>
+			</div> <!-- end form-group -->
+			<div class="form-group">
+				<div class="row custom-inline">
+					<div class="col-md-offset-2 col-md-2">
+						<input type="submit" value="Login" class="btn btn-default" />
+					</div>
+					<div class="col-md-3">
+						<a href="jsp/forgotpw.htm">Forgot password?</a>
+					</div>
+				</div>
+			</div> <!-- end form-group -->
+		</form>
+	</div> <!-- end container -->
+	
+	<script src="js/jquery-1.11.js" type="text/javascript"></script>
+	<script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+</body>
+</html>
+
